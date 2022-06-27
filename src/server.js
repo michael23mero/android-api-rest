@@ -1,4 +1,5 @@
 const express = require('express')
+const cors = require('cors')
 
 
 class Servidor{
@@ -13,7 +14,9 @@ class Servidor{
     }
 
     middlewares(){
+        this.app.use(cors())
         this.app.use(express.json())
+        this.app.use(express.urlencoded({extended: false}))
     }
 
     routes(){
