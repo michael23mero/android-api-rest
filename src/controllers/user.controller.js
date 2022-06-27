@@ -28,10 +28,30 @@ const login = async (req, res) => {
         if(!comparacion){
             return res.json({msg: 'Contraseña incorrecta'})
         }else{
+            const token = jwt.sign({username: existeUser.username}, process.env.JWT_SECRET, {
+                expiresIn: 86400
+            })
+            
+            console.log(token, existeUser)
+            res.cookie('jwt', token)
             return res.json({msg: 'Bienvenid@'})
         }
     }
 }
+
+const isAuthenticated = async (req, res, next) => {
+    if(!req.cookies.jwt){
+        return res.json({msg: 'Inicio de sesion exitoso'})
+    }
+    try{
+        const decode = await jwt.verify(req.cookies.jwt, process.env.JWT_SECRET)
+        req.user = decode
+        next()
+    }catch(error){
+        res.status(400).json({error: 'token no es válido'})
+    }
+}
+
 
 
 const readUser = async (req, res) => {
@@ -62,4 +82,4 @@ const readOneUser = async (req, res) =>{
     }  
 }
 
-module.exports = { register, login, readUser, updateUser, deleteUser, readOneUser }
+module.exports = { register, login, readUser, updateUser, deleteUser, readOneUser, isAuthenticated }
