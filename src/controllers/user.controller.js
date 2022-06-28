@@ -22,13 +22,13 @@ const login = async (req, res) => {
         username : username
     })
     if(!existeUser){
-        return res.status(400).json({msg: 'Usuario no encontrado', code:400})
+        return res.status(400).json({msg: 'Usuario no encontrado'})
     }else{
         const comparacion = await existeUser.comparePassword(password)
         if(!comparacion){
-            return res.status(400).json({msg: 'Contraseña incorrecta', code:400})
+            return res.status(400).json({msg: 'Contraseña incorrecta'})
         }else{
-            return res.status(200).json({msg: 'Bienvenid@', code:200})
+            return res.status(200).json({msg: 'Bienvenid@'})
         }
     }
 }
