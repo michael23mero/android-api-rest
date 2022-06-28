@@ -28,12 +28,6 @@ const login = async (req, res) => {
         if(!comparacion){
             return res.json({msg: 'Contraseña incorrecta'})
         }else{
-            const token = jwt.sign({username: existeUser.username}, process.env.JWT_SECRET, {
-                expiresIn: 86400
-            })
-            
-            console.log(token, existeUser)
-            res.cookie('jwt', token)
             return res.json({msg: 'Bienvenid@'})
         }
     }
